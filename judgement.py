@@ -11,9 +11,9 @@ import re
 time_start = datetime.now().strftime("%Y%m%d_%H%M%S")
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--model-output', help=' : Model Output File Location', default=None)
-parser.add_argument('--openai-api-key', help=' : Model', default=None)
-parser.add_argument('--judge-model', help=' : Judge Model', default='gpt-4-1106-preview')
+parser.add_argument('--model_output', help=' : Model Output File Location', default=None)
+parser.add_argument('--openai_api_key', help=' : Model', default=None)
+parser.add_argument('--judge_model', help=' : Judge Model', default='gpt-4-1106-preview')
 parser.add_argument('--threads', help=' : Thread count', default=10, type=int)
 args = parser.parse_args()
 
