@@ -22,7 +22,6 @@ def main():
     parser.add_argument('--model_len', help='Maximum Model Length', default=4096, type=int)
     parser.add_argument('--bench_name', help='Benchmark to evaluate', default='logic-kor')
     args = parser.parse_args()
-    
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu_devices
     gpu_counts = len(args.gpu_devices.split(','))
 
@@ -43,7 +42,13 @@ def main():
     multi_turn_outputs = [output.outputs[0].text.strip() for output in llm.generate(multi_turn_questions, sampling_params)]
 
     df_output = pd.DataFrame({'id': df_questions['id'], 'category': df_questions['category'], 'questions': df_questions['questions'], 'outputs': list(zip(single_turn_outputs, multi_turn_outputs)), "references": df_questions['references']})
-    df_output.to_json(f'{str(args.bench_name)}/{str(args.model).replace("/", "_")}.jsonl', orient='records', lines=True, force_ascii=False)
+    
+    output_dir = f'{str(args.bench_name)}'
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    output_file = f'{output_dir}/{str(args.model).replace("/", "_")}.jsonl'
+    df_output.to_json(output_file, orient='records', lines=True, force_ascii=False)
 
 if __name__ == '__main__':
     main()
